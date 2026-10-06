@@ -18,6 +18,10 @@ Otherwise, use the Github Pages link:
 
 https://irawoodring.github.io/laker_quest
 
+## Publishing on GitHub Pages
+
+`.github/workflows/pages.yml` publishes the game to GitHub Pages every time `main` changes. One-time setup: in the repo on GitHub, go to **Settings → Pages** and set **Source** to **GitHub Actions**. After that, each push or merge to `main` redeploys automatically; the **Actions** tab shows progress and the site's address. You can also rerun a deploy by hand from **Actions → Deploy to GitHub Pages → Run workflow**.
+
 ## Controls
 
 | Key | Action |
