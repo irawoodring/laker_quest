@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laker Quest</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #08080f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      box-shadow: 0 0 0 4px #0032a0, 0 0 40px rgba(0, 50, 160, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="screen" width="256" height="224"></canvas>
+
+  <script src="src/font.js"></script>
+  <script src="src/engine.js"></script>
+  <script src="src/sprites.js"></script>
+  <script src="src/campus_map.js"></script>
+  <script src="src/campus.js"></script>
+  <script src="src/world.js"></script>
+  <script src="src/data.js"></script>
+  <script src="src/quests.js"></script>
+  <script src="src/battle.js"></script>
+  <script src="src/game.js"></script>
+  <script>
+    (function () {
+      const canvas = document.getElementById('screen');
+
+      // Integer scaling keeps the pixels crisp.
+      function resize() {
+        const s = Math.max(1, Math.floor(Math.min(window.innerWidth / LQ.W, window.innerHeight / LQ.H)));
+        canvas.style.width = LQ.W * s + 'px';
+        canvas.style.height = LQ.H * s + 'px';
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      LQ.Input.init();
+      window.addEventListener('keydown', () => LQ.Sound.ensure(), { once: true });
+      const game = new LQ.Game(canvas);
+      window.game = game;
+
+      // Fixed 60 updates per second, drawing once per animation frame.
+      const STEP = 1000 / 60;
+      let last = performance.now(), acc = 0;
+      function frame(now) {
+        acc += Math.min(250, now - last);
+        last = now;
+        while (acc >= STEP) {
+          game.update();
+          LQ.Input.endFrame();
+          acc -= STEP;
+        }
+        game.draw();
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+  </script>
+</body>
+</html>
