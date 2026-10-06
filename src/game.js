@@ -1,6 +1,8 @@
 // Main game: state machine, overworld, dialogue, menus, saving.
 window.LQ = window.LQ || {};
 
+// Splash timing in frames (60 per second).
+LQ.SPLASH = { fadeIn: 30, fadeOut: 30, total: 190 };
 const SAVE_KEY = 'laker_quest_save_v2';   // v2: traced campus map
 LQ.MAP_SHRINK = 1;   // map screen pixels per tile (1 = one pixel per tile)
 
@@ -10,7 +12,10 @@ LQ.Game = class {
     this.ctx = canvas.getContext('2d');
     this.ctx.imageSmoothingEnabled = false;
     this.t = 0;
-    this.state = 'title';
+    this.state = 'splash';
+    this.splashT = 0;
+    this.logo = new Image();
+    this.logo.src = 'assets/laker-game-labs.png';
     this.titleCursor = 0;
     this.maps = {};
     this.flags = {};
@@ -1033,6 +1038,37 @@ LQ.Game = class {
     LQ.drawCursor(ctx, 104, 128 + this.goCursor * 13, this.t);
   }
 
+  // ======================================================== splash
+  // Laker Game Labs logo: fade in, hold, fade out to the title. Any key skips.
+  updateSplash() {
+    this.splashT++;
+    const I = LQ.Input;
+    const anyKey = I.typed.length || ['ok', 'cancel', 'menu', 'map', 'up', 'down', 'left', 'right'].some((k) => I.hit(k));
+    if ((anyKey && this.splashT > 10) || this.splashT >= LQ.SPLASH.total) this.state = 'title';
+  }
+
+  drawSplash(ctx) {
+    const S = LQ.SPLASH, t = this.splashT;
+    const a = t < S.fadeIn ? t / S.fadeIn : t > S.total - S.fadeOut ? (S.total - t) / S.fadeOut : 1;
+    ctx.fillStyle = '#08080f';
+    ctx.fillRect(0, 0, LQ.W, LQ.H);
+    ctx.save();
+    ctx.globalAlpha = LQ.clamp(a, 0, 1);
+    const size = 128, x = (LQ.W - size) / 2, y = 30;
+    if (this.logo.complete && this.logo.naturalWidth) {
+      // The logo is a smooth image, not pixel art, so let it scale smoothly.
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(this.logo, x, y, size, size);
+      ctx.imageSmoothingEnabled = false;
+    }
+    const name = 'Laker Game Labs';
+    LQ.drawText(ctx, name, Math.floor((LQ.W - LQ.textWidth(name)) / 2), y + size + 12, '#f8f8f8');
+    const sub = 'presents';
+    LQ.drawText(ctx, sub, Math.floor((LQ.W - LQ.textWidth(sub)) / 2), y + size + 26, '#8890a8');
+    ctx.restore();
+  }
+
   // ======================================================== title / naming
   updateTitle() {
     const I = LQ.Input;
@@ -1106,6 +1142,7 @@ LQ.Game = class {
       return;
     }
     switch (this.state) {
+      case 'splash': this.updateSplash(); break;
       case 'title': this.updateTitle(); break;
       case 'naming': this.updateNaming(); break;
       case 'world':
@@ -1127,6 +1164,7 @@ LQ.Game = class {
   draw() {
     const ctx = this.ctx;
     switch (this.state) {
+      case 'splash': this.drawSplash(ctx); break;
       case 'title': this.drawTitle(ctx); break;
       case 'naming': this.drawNaming(ctx); break;
       case 'world': this.drawWorld(ctx); break;

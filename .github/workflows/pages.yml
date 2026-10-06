@@ -1,6 +1,6 @@
 # Publishes the game to GitHub Pages on every push to main.
 # The game is static HTML/JS, so "building" is just copying the files it
-# needs (index.html and src/) into the site.
+# needs (index.html, src/ and assets/) into the site.
 name: Deploy to GitHub Pages
 
 on:
@@ -32,6 +32,7 @@ jobs:
           mkdir _site
           cp index.html _site/
           cp -r src _site/
+          cp -r assets _site/
 
       - uses: actions/configure-pages@v5
 
