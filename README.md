@@ -6,13 +6,17 @@ At midnight the Cook Carillon rang thirteen times, out of tune, and since then c
 
 ## Running it
 
-No build step and no dependencies. Open `index.html` in a browser, or serve the folder:
+For local:
 
 ```sh
 cd laker_quest
 python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
+
+Otherwise, use the Github Pages link:
+
+https://irawoodring.github.io/laker_quest
 
 ## Controls
 
