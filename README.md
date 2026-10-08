@@ -102,6 +102,7 @@ python3 tools/osm_to_map.py map.osm --campus-image allendale_campus_map.jpg --pr
 | `src/data.js` | Stats, items, PSI, enemies, NPC dialogue, interiors |
 | `src/quests.js` | Side quests and items to find on the map |
 | `src/battle.js` | Battle system and animated backgrounds |
-| `src/game.js` | Game states, overworld, menus, saving, ending |
+| `src/game.js` | Game states (splash, title, overworld, battle, ending), menus, saving |
+| `assets/` | The Laker Game Labs logo for the splash screen |
 
-All art is drawn in code, so there are no image or audio files.
+All game art is drawn in code. The only image file is the Laker Game Labs logo shown on the splash screen, `assets/laker-game-labs.png`.
