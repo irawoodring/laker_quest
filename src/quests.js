@@ -151,6 +151,40 @@ LQ.QUESTS = [
     },
   },
   {
+    id: 'passport',
+    title: 'Laker Passport',
+    giver: 'guide',
+    available: (g) => !!g.flags.metGuide,   // after the campus orientation
+    goal: ['Collect stamps at the Cook Carillon Tower, Zumberge Pond and Lubbers Stadium.'],
+    reward: { exp: 25, money: 30, items: ['cap'] },
+    talk(g, q) {
+      const stamps = ['stamp_bell', 'stamp_pond', 'stamp_stadium'];
+      if (q.step === undefined) {
+        g.startQuest('passport');
+        return [
+          'Oh! Before you go, one more thing. Every new Laker gets one of these.',
+          'It\'s a Laker Passport. There are stamp stations at three campus landmarks:',
+          'the Cook Carillon Tower, Zumberge Pond, and Lubbers Stadium.',
+          'Collect all three stamps and bring the passport back. There\'s a prize!',
+          '@(New quest: Laker Passport)',
+        ];
+      }
+      if (q.step === 0) {
+        const missing = stamps.filter((s) => !g.has(s)).map((s) => LQ.ITEMS[s].name.replace(' Stamp', ''));
+        if (missing.length) {
+          const have = 3 - missing.length;
+          return ['Stamps so far: ' + have + ' of 3. Still missing: ' + missing.join(', ') + '.'];
+        }
+        stamps.forEach((s) => g.takeItem(s));
+        return [
+          'All three stamps! Carillon, pond, stadium. You\'re officially a Laker.',
+          'Here\'s your prize. Wear it everywhere.',
+        ].concat(g.completeQuest('passport'));
+      }
+      return null;
+    },
+  },
+  {
     id: 'pizza',
     title: 'Pizza Run',
     giver: 'neighbor',
@@ -178,8 +212,11 @@ LQ.QUESTS = [
 
 // Items lying on the map. A pickup shows up only while its quest is at
 // `step`; picking it up gives the item and moves the quest to the next step.
+// Set `advance: false` when a step needs several pickups; the giver's talk()
+// then checks which items the player has.
 //   at: 'arch'           a couple of tiles south of the Transformational Link
 //       'football'       the middle of the football field
+//       'carillon'       next to the Cook Carillon Tower
 //       { img: [x, y] }  GVSU campus map image pixels (see campus.js)
 //       { tile: [x, y] } map tiles
 LQ.PICKUPS = [
@@ -187,4 +224,10 @@ LQ.PICKUPS = [
     text: 'A Lakercard, face down on the walk. The photo looks very tired.' },
   { id: 'gameball', quest: 'gameball', step: 0, item: 'gameball', at: 'football',
     text: 'The game ball! It\'s been chewed on a little. Probably the squirrels.' },
+  { id: 'stamp_bell', quest: 'passport', step: 0, item: 'stamp_bell', at: 'carillon', advance: false,
+    text: 'A stamp station by the Cook Carillon. Ka-chunk!' },
+  { id: 'stamp_pond', quest: 'passport', step: 0, item: 'stamp_pond', at: { img: [404, 362] }, advance: false,
+    text: 'A stamp station at Zumberge Pond. A goose watches you suspiciously. Ka-chunk!' },
+  { id: 'stamp_stadium', quest: 'passport', step: 0, item: 'stamp_stadium', at: { img: [258, 168] }, advance: false,
+    text: 'A stamp station outside Lubbers Stadium. Ka-chunk!' },
 ];

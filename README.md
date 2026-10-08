@@ -36,7 +36,7 @@ Save by checking a phone (in Kirkhof, Zumberge, the Fieldhouse, your dorm, and a
 
 ## Side quests
 
-Besides the main story there are six side quests. Open the menu (X) and choose **Quests** to see what you've picked up and what's next.
+Besides the main story there are seven side quests. Open the menu (X) and choose **Quests** to see what you've picked up and what's next.
 
 | Quest | Who gives it | What to do |
 | --- | --- | --- |
@@ -46,6 +46,7 @@ Besides the main story there are six side quests. Open the menu (X) and choose *
 | Fourth and Long | Coach in the Fieldhouse (after the bat) | Find the game ball on Lubbers Field |
 | River Coffee | Angler on the Grand River | Bring a Coffee |
 | Pizza Run | Neighbor in Allendale | Bring a Pizza Slice |
+| Laker Passport | Tour Guide at the Alumni House (after the orientation) | Collect stamps at the Cook Carillon, Zumberge Pond and Lubbers Stadium |
 
 ### Adding a quest
 

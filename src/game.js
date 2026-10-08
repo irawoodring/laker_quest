@@ -471,6 +471,7 @@ LQ.Game = class {
     if (pk.tileCache) return pk.tileCache;
     let t = null;
     if (pk.at === 'arch' && m.arch) t = m.snapOpen(m.arch.x, m.arch.y + 2);
+    else if (pk.at === 'carillon' && m.carillon) t = m.snapOpen(m.carillon.x + 3, m.carillon.y + 3);
     else if (pk.at === 'football') {
       let sx = 0, sy = 0, n = 0;
       for (let y = 0; y < m.h; y++) for (let x = 0; x < m.w; x++) if (m.get(x, y) === LQ.T.FOOTBALL) { sx += x; sy += y; n++; }
@@ -495,7 +496,7 @@ LQ.Game = class {
         this.flags.pickedUp = this.flags.pickedUp || {};
         this.flags.pickedUp[pk.id] = true;
         this.giveItem(pk.item);
-        this.setQuestStep(pk.quest, pk.step + 1);
+        if (pk.advance !== false) this.setQuestStep(pk.quest, pk.step + 1);
         LQ.Sound.select();
         this.say(['@' + pk.text, '@' + this.player.name + ' got the ' + LQ.ITEMS[pk.item].name + '!']);
         return;

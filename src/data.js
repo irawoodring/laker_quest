@@ -41,6 +41,10 @@ LQ.ITEMS = {
   rocket: { name: 'Bottle Rocket', kind: 'attack', damage: [28, 40], price: 18, desc: 'Fire it at an enemy. Battle only.' },
   hoodie: { name: 'GVSU Hoodie', kind: 'equip', slot: 'body', def: 4, price: 40, desc: 'Laker blue. Defense +4.' },
   bat: { name: 'Laker Baseball Bat', kind: 'equip', slot: 'weapon', off: 6, price: 0, desc: 'Signed by the team. Offense +6.' },
+  cap: { name: 'Laker Cap', kind: 'equip', slot: 'head', def: 5, price: 0, desc: 'A Laker blue ball cap. Defense +5.' },
+  stamp_bell: { name: 'Carillon Stamp', kind: 'key', desc: 'A passport stamp of the Cook Carillon Tower.' },
+  stamp_pond: { name: 'Pond Stamp', kind: 'key', desc: 'A passport stamp of Zumberge Pond. There is a goose in it.' },
+  stamp_stadium: { name: 'Stadium Stamp', kind: 'key', desc: 'A passport stamp of Lubbers Stadium.' },
   goggles: { name: 'Lab Goggles', kind: 'equip', slot: 'head', def: 3, price: 0, desc: 'Safety first! Defense +3.' },
   pin: { name: 'Laker Pin', kind: 'equip', slot: 'charm', off: 2, def: 2, price: 0, desc: 'A library staff pin. Offense +2, Defense +2.' },
   jersey: { name: 'Laker Jersey', kind: 'equip', slot: 'body', def: 7, price: 0, desc: 'A real game jersey. Defense +7.' },
@@ -205,13 +209,16 @@ LQ.NPCS = [
   { id: 'st1', map: 'campus', img: [440, 158], look: 'student1', dir: 'left', wander: true,
     talk: () => ['I heard the Fieldhouse coach is giving away gear to anybody brave enough to go outside.', 'The Fieldhouse is west of North Campus Drive, across from the D lots. Big building, you can\'t miss it.'] },
   { id: 'guide', map: 'campus', img: [350, 118], look: 'guide', dir: 'down', name: 'Tour Guide',
-    talk: () => [
-      'Welcome to Grand Valley! Let me orient you.',
-      'You\'re at the north entrance. Lake Michigan Drive, M-45, runs along the north edge of campus.',
-      'The Grand River is to the east, past the ravines and the boathouse. Athletics are to the west: Lubbers Stadium, Kelly Family Sports Center, the Fieldhouse. The Meadows golf course is past the stadium.',
-      'Academic buildings are in the middle. Housing is at the north end, here, and the south end: Laker Village, Niemeyer, the South Apartments and GVA down by Pierce Street.',
-      'And the Cook Carillon Tower is right in the center, just north of Kirkhof, between the library and Cook-DeWitt.',
-    ] },
+    talk: (g) => {
+      g.flags.metGuide = true;   // unlocks the Laker Passport quest
+      return [
+        'Welcome to Grand Valley! Let me orient you.',
+        'You\'re at the north entrance. Lake Michigan Drive, M-45, runs along the north edge of campus.',
+        'The Grand River is to the east, past the ravines and the boathouse. Athletics are to the west: Lubbers Stadium, Kelly Family Sports Center, the Fieldhouse. The Meadows golf course is past the stadium.',
+        'Academic buildings are in the middle. Housing is at the north end, here, and the south end: Laker Village, Niemeyer, the South Apartments and GVA down by Pierce Street.',
+        'And the Cook Carillon Tower is right in the center, just north of Kirkhof, between the library and Cook-DeWitt.',
+      ];
+    } },
   // ---------- athletics
   { id: 'jock', map: 'campus', img: [262, 150], look: 'student4', dir: 'left', wander: true,
     talk: () => ['The stadium is haunted now. Well, haunted-ish. Our mascot costume is walking around WITHOUT anybody in it.', 'Anchor Up, I guess?'] },
