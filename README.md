@@ -1,6 +1,6 @@
 # Laker Quest
 
-A 16-bit style game, in the style of Earthbound, that takes place on Grand Valley State University's Allendale campus.
+A 16-bit style game, in the style of Earthbound, that takes place on Grand Valley State University's Allendale campus.  Campus made from OpenStreeMap data.
 
 At midnight the Cook Carillon rang thirteen times, out of tune, and since then campus has been strange. Squirrels pick fights, overdue books fly around the library, and the geese are worse than usual. Find out what's going on in the tower.
 
